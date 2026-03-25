@@ -32,7 +32,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                     "model": "deepseek/deepseek-r1:free", 
                     "messages": st.session_state.messages
                 },
-                timeout=25
+                timeout=60
             )
             
             if response.status_code == 200:
