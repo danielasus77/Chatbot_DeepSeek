@@ -33,7 +33,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                     "Content-Type": "application/json"
                 },
                 json={
-                    "model": "deepseek/deepseek-chat", 
+                    google/gemini-2.0-flash-lite-preview-02-05:free,
                     "messages": st.session_state.messages
                 },
                 timeout=30
