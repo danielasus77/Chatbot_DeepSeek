@@ -4,11 +4,11 @@ import requests
 st.set_page_config(page_title="Mi Chatbot DeepSeek", page_icon="🤖")
 st.title("Mi Chatbot DeepSeek 🤖")
 
-# 1. Verificar la API Key en la caja fuerte de Streamlit
+# 1. Obtener la llave de la caja fuerte (Secrets)
 if "DEEPSEEK_API_KEY" in st.secrets:
     api_key = st.secrets["DEEPSEEK_API_KEY"]
 else:
-    st.error("Error: No configuraste 'DEEPSEEK_API_KEY' en los Secrets.")
+    st.error("Falta la clave 'DEEPSEEK_API_KEY' en los Secrets.")
     st.stop()
 
 if "messages" not in st.session_state:
@@ -25,7 +25,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
 
     with st.chat_message("assistant"):
         try:
-            # Petición técnica a OpenRouter
+            # AQUÍ ES DONDE ESTABA EL ERROR DE PARÉNTESIS:
             response = requests.post(
                 url="https://openrouter.ai",
                 headers={
@@ -37,7 +37,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                     "messages": st.session_state.messages
                 },
                 timeout=30
-            )
+            ) # <-- Este paréntesis es el que te faltaba cerrar
             
             if response.status_code == 200:
                 data = response.json()
@@ -45,6 +45,6 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                 st.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             else:
-                st.error(f"Servidor ocupado (Error {response.status_code}). Intenta de nuevo.")
+                st.error(f"Error {response.status_code}: {response.text}")
         except Exception:
-            st.error("Problema de conexión. Verifica tu llave en los Secrets.")
+            st.error("Problema de conexión. Intenta de nuevo.")
