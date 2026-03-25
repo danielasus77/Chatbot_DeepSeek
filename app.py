@@ -26,6 +26,7 @@ if prompt := st.chat_input("Escribe tu pregunta..."):
     with st.chat_message("assistant"):
         try:
             response = requests.post(
+               response = requests.post(
                 "https://openrouter.ai",
                 headers={
                     "Authorization": f"Bearer {api_key}",
@@ -35,13 +36,15 @@ if prompt := st.chat_input("Escribe tu pregunta..."):
                     "model": "deepseek/deepseek-r1:free", 
                     "messages": st.session_state.messages
                 },
-                timeout=10 # Evita que se quede esperando por siempre
+                timeout=15
             )
             
             if response.status_code == 200:
                 data = response.json()
-                # El [0] es vital aquí:
                 full_response = data['choices'][0]['message']['content']
+                st.markdown(full_response)
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+
                 st.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             else:
