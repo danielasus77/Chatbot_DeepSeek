@@ -49,5 +49,4 @@ if prompt := st.chat_input("Escribe tu pregunta..."):
                 
         except Exception as e:
             st.error("Hubo un problema de conexión. Intenta de nuevo en unos segundos.")
-}
 
