@@ -33,7 +33,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                     "Content-Type": "application/json"
                 },
                 json={
-                    "model": "model": "deepseek/deepseek-chat", 
+                    "model": "deepseek/deepseek-chat", 
                     "messages": st.session_state.messages
                 },
                 timeout=30
