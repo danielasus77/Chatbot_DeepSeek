@@ -4,7 +4,7 @@ import requests
 st.set_page_config(page_title="Mi Chatbot DeepSeek", page_icon="🤖")
 st.title("Mi Chatbot DeepSeek 🤖")
 
-# 1. Obtener la llave de la caja fuerte (Secrets)
+# 1. Obtener la llave de los Secrets
 if "DEEPSEEK_API_KEY" in st.secrets:
     api_key = st.secrets["DEEPSEEK_API_KEY"]
 else:
@@ -25,7 +25,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
 
     with st.chat_message("assistant"):
         try:
-            # AQUÍ ES DONDE ESTABA EL ERROR DE PARÉNTESIS:
+            # 2. Petición corregida
             response = requests.post(
                 url="https://openrouter.ai",
                 headers={
@@ -37,7 +37,7 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
                     "messages": st.session_state.messages
                 },
                 timeout=30
-            ) # <-- Este paréntesis es el que te faltaba cerrar
+            )
             
             if response.status_code == 200:
                 data = response.json()
@@ -47,4 +47,4 @@ if prompt := st.chat_input("Escribe tu pregunta aquí..."):
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
         except Exception:
-            st.error("Problema de conexión. Intenta de nuevo.")
+            st.error("Hubo un problema de conexión. Revisa tus Secrets.")
